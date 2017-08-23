@@ -12,6 +12,9 @@ var num_quest = 0;
 var quiz = "quizzes/elements.quiz"
 var data = [];
 
+var correct = 0;
+var attempted = 0;
+
 function httpGet(theUrl){
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", theUrl, false );
@@ -33,13 +36,14 @@ window.onload = function(){
 	num_quest = qs.length;
 	for (i = 0; i < num_quest; i++){
 		var ds = qs[i].split("\n");
+		ds.push(0);
 		data.push(ds);
 	}
 	update();
 }
 
 function update(){
-	progress.innerHTML = "Question " + (cur_quest + 1).toString() + "/" + num_quest.toString();
+	progress.innerHTML = "Question: " + (cur_quest + 1).toString() + "/" + num_quest.toString() + "; Score: " + correct.toString() + "/" + attempted.toString();
 	question.innerHTML = data[cur_quest][0];
 	qa.innerHTML = data[cur_quest][1];
 	qb.innerHTML = data[cur_quest][2];
@@ -50,12 +54,22 @@ function update(){
 }
 
 function answer(){
+	var html;
 	var answer = document.querySelector('input[name="answer"]:checked').value;
 	if (answer == data[cur_quest][6]){
-		footer.innerHTML = "<font color=#00FF00> Correct! </font>";
+		html = "<font color=#00FF00> Correct! </font>";
+		if (data[cur_quest][7] == 0){
+			correct++;
+		}
 	}else{
-		footer.innerHTML = "<font color=#FF0000> Incorrect </font>";
+		html = "<font color=#FF0000> Incorrect </font>";
 	}
+	if (data[cur_quest][7] == 0){
+		attempted++;
+		data[cur_quest][7] = 1;
+	}
+	update();
+	footer.innerHTML = html;
 }
 
 function next(){
