@@ -50,7 +50,11 @@ function update(){
 	qc.innerHTML = data[cur_quest][3];
 	qd.innerHTML = data[cur_quest][4];
 	qe.innerHTML = data[cur_quest][5];
-	footer.innerHTML = "";
+	if (data[cur_quest][7] == 1){
+		footer.innerHTML = "The Correct Answer was "+data[cur_quest][6];
+	}else{
+		footer.innerHTML = "";
+	}
 }
 
 function answer(){
