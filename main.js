@@ -5,6 +5,7 @@ var qb;
 var qc;
 var qd;
 var qe;
+var footer;
 
 var cur_quest = 0;
 var num_quest = 0;
@@ -26,6 +27,7 @@ window.onload = function(){
 	qc = document.getElementById("QC");
 	qd = document.getElementById("QD");
 	qe = document.getElementById("QE");
+	footer = document.getElementById("footer");
 	var text = httpGet(quiz);
 	var qs = text.split("---\n");
 	num_quest = qs.length;
@@ -44,6 +46,16 @@ function update(){
 	qc.innerHTML = data[cur_quest][3];
 	qd.innerHTML = data[cur_quest][4];
 	qe.innerHTML = data[cur_quest][5];
+	footer.innerHTML = "";
+}
+
+function answer(){
+	var answer = document.querySelector('input[name="answer"]:checked').value;
+	if (answer == data[cur_quest][6]){
+		footer.innerHTML = "<font color=#00FF00> Correct! </font>";
+	}else{
+		footer.innerHTML = "<font color=#FF0000> Incorrect </font>";
+	}
 }
 
 function next(){
